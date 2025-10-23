@@ -15,3 +15,7 @@
   margin-left: 10px;
   font-size: 0.9em;
 }
+.MMM-pdx-airport-wait-times .time.nolabel {
+  font-size: 54px;
+  line-height: 1em;
+}

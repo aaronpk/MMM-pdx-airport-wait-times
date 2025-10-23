@@ -65,23 +65,24 @@ Module.register("MMM-pdx-airport-wait-times", {
     }
 
     // Create the wait times display based on config
+    let showCheckpointLabel = (this.config.showBCStandard && this.config.showBCPreCheck) || this.config.showDEStandard && this.config.showDEPreCheck;
     let html = "<div class='wait-times'>"
     if (this.config.showBCStandard || this.config.showBCPreCheck) {
-      html += `<div class='checkpoint'><b>Checkpoint B/C</b></div>`
+      html += `<div class='checkpoint'>Checkpoint B/C</div>`
       if (this.config.showBCStandard) {
-        html += `<div class='time'>Standard: ${this.waitTimes.b_c_standard} min</div>`
+        html += `<div class='time ${showCheckpointLabel ? '' : 'nolabel'}'>${showCheckpointLabel ? 'Standard: ' : ''}${this.waitTimes.b_c_standard} min</div>`
       }
       if (this.config.showBCPreCheck) {
-        html += `<div class='time'>PreCheck: ${this.waitTimes.b_c_precheck} min</div>`
+        html += `<div class='time ${showCheckpointLabel ? '' : 'nolabel'}'>${showCheckpointLabel ? 'PreCheck: ' : ''}${this.waitTimes.b_c_precheck} min</div>`
       }
     }
     if (this.config.showDEStandard || this.config.showDEPreCheck) {
-      html += `<div class='checkpoint'><b>Checkpoint D/E</b></div>`
+      html += `<div class='checkpoint'>Checkpoint D/E</div>`
       if (this.config.showDEStandard) {
-        html += `<div class='time'>Standard: ${this.waitTimes.d_e_standard} min</div>`
+        html += `<div class='time ${showCheckpointLabel ? '' : 'nolabel'}'>${showCheckpointLabel ? 'Standard: ' : ''}${this.waitTimes.d_e_standard} min</div>`
       }
       if (this.config.showDEPreCheck) {
-        html += `<div class='time'>PreCheck: ${this.waitTimes.d_e_precheck} min</div>`
+        html += `<div class='time ${showCheckpointLabel ? '' : 'nolabel'}'>${showCheckpointLabel ? 'PreCheck: ' : ''}${this.waitTimes.d_e_precheck} min</div>`
       }
     }
     html += "</div>"
