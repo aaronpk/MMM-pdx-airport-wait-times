@@ -61,8 +61,7 @@ Module.register("MMM-pdx-airport-wait-times", {
     }
 
     // Create the wait times display
-    let html = "<b>PDX Airport Security Wait Times</b><br />"
-    html += "<div class='wait-times'>"
+    let html = "<div class='wait-times'>"
     html += `<div class='checkpoint'><b>Checkpoint B/C</b></div>`
     html += `<div class='time'>Standard: ${this.waitTimes.b_c_standard} min</div>`
     html += `<div class='time'>PreCheck: ${this.waitTimes.b_c_precheck} min</div>`
