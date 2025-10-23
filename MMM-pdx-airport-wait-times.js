@@ -1,0 +1,82 @@
+Module.register("MMM-pdx-airport-wait-times", {
+
+  defaults: {
+    updateInterval: 120000 // 2 minutes in milliseconds
+  },
+
+  /**
+   * Apply the default styles.
+   */
+  getStyles() {
+    return ["template.css"]
+  },
+
+  /**
+   * Pseudo-constructor for our module. Initialize stuff here.
+   */
+  start() {
+    this.waitTimes = null
+    this.loaded = false
+
+    // Request initial data
+    this.fetchWaitTimes()
+
+    // Set up periodic updates every 2 minutes
+    setInterval(() => this.fetchWaitTimes(), this.config.updateInterval)
+  },
+
+  /**
+   * Handle notifications received by the node helper.
+   * So we can communicate between the node helper and the module.
+   *
+   * @param {string} notification - The notification identifier.
+   * @param {any} payload - The payload data returned by the node helper.
+   */
+  socketNotificationReceived: function (notification, payload) {
+    if (notification === "WAIT_TIMES_DATA") {
+      this.waitTimes = payload
+      this.loaded = true
+      this.updateDom()
+    } else if (notification === "WAIT_TIMES_ERROR") {
+      Log.error("Error fetching wait times:", payload)
+      this.loaded = true
+      this.updateDom()
+    }
+  },
+
+  /**
+   * Render the page we're on.
+   */
+  getDom() {
+    const wrapper = document.createElement("div")
+
+    if (!this.loaded) {
+      wrapper.innerHTML = "Loading wait times..."
+      return wrapper
+    }
+
+    if (!this.waitTimes) {
+      wrapper.innerHTML = "No data available"
+      return wrapper
+    }
+
+    // Create the wait times display
+    let html = "<b>PDX Airport Security Wait Times</b><br />"
+    html += "<div class='wait-times'>"
+    html += `<div class='checkpoint'><b>Checkpoint B/C</b></div>`
+    html += `<div class='time'>Standard: ${this.waitTimes.b_c_standard} min</div>`
+    html += `<div class='time'>PreCheck: ${this.waitTimes.b_c_precheck} min</div>`
+    html += `<div class='checkpoint'><b>Checkpoint D/E</b></div>`
+    html += `<div class='time'>Standard: ${this.waitTimes.d_e_standard} min</div>`
+    html += `<div class='time'>PreCheck: ${this.waitTimes.d_e_precheck} min</div>`
+    html += "</div>"
+
+    wrapper.innerHTML = html
+    return wrapper
+  },
+
+  fetchWaitTimes() {
+    this.sendSocketNotification("FETCH_WAIT_TIMES")
+  },
+
+})

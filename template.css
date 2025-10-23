@@ -1,3 +1,17 @@
-.MMM-Template div {
-  color: purple;
+.MMM-pdx-airport-wait-times {
+  color: #fff;
+}
+
+.MMM-pdx-airport-wait-times .wait-times {
+  margin-top: 10px;
+}
+
+.MMM-pdx-airport-wait-times .checkpoint {
+  margin-top: 10px;
+  margin-bottom: 5px;
+}
+
+.MMM-pdx-airport-wait-times .time {
+  margin-left: 10px;
+  font-size: 0.9em;
 }
