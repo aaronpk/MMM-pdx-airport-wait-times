@@ -5,7 +5,7 @@ module.exports = NodeHelper.create({
   async socketNotificationReceived(notification, payload) {
     if (notification === "FETCH_WAIT_TIMES") {
       try {
-        const response = await fetch("https://launchpad.pin13.net/pdx/wait-times.php")
+        const response = await fetch(payload.waitTimesURL)
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }
@@ -16,7 +16,7 @@ module.exports = NodeHelper.create({
         this.sendSocketNotification("WAIT_TIMES_ERROR", error.message)
       }
       try {
-        const response = await fetch(this.config.upcomingFlightsURL)
+        const response = await fetch(payload.upcomingFlightsURL)
         if (!response.ok) {
           throw new Error(`HTTP error! status: ${response.status}`)
         }

@@ -5,7 +5,9 @@ Module.register("MMM-pdx-airport-wait-times", {
     showBCStandard: true,
     showBCPreCheck: true,
     showDEStandard: true,
-    showDEPreCheck: true
+    showDEPreCheck: true,
+    waitTimesURL: "",
+    upcomingFlightsURL: ""
   },
 
   /**
@@ -98,7 +100,7 @@ Module.register("MMM-pdx-airport-wait-times", {
   },
 
   fetchWaitTimes() {
-    this.sendSocketNotification("FETCH_WAIT_TIMES")
+    this.sendSocketNotification("FETCH_WAIT_TIMES", this.config)
   },
 
 })
