@@ -15,6 +15,17 @@ module.exports = NodeHelper.create({
         console.error("Error fetching wait times:", error)
         this.sendSocketNotification("WAIT_TIMES_ERROR", error.message)
       }
+      try {
+        const response = await fetch(this.config.upcomingFlightsURL)
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
+        const data = await response.json()
+        this.sendSocketNotification("VISIBLE", data.flights.length !== 0);
+      } catch (error) {
+        console.error("Error fetching flight data:", error)
+        this.sendSocketNotification("VISIBLE", false);
+      }
     }
   },
 })

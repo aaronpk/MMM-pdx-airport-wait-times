@@ -45,6 +45,12 @@ Module.register("MMM-pdx-airport-wait-times", {
       Log.error("Error fetching wait times:", payload)
       this.loaded = true
       this.updateDom()
+    } else if (notification === "VISIBLE") {
+      if(payload) {
+        this.show(1000);
+      } else {
+        this.hide(1000);
+      }
     }
   },
 
